@@ -1,17 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+/* 入口js文件 */
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+/* 一个项目至少需要一个根组件 App */
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import React from 'react'
+import ReactDOM from 'react-dom'
+import 'antd/dist/antd.css'  // 最简单方法:   引入所有样式, 只打包引入的相关组件的样式, 
+
+// 引入自定义模块,需要加 '.'
+import App from './App'
+
+// 渲染app标签, 标签体没有内容, 这里写成自闭合的
+// 将App组件标签渲染到index页面的div上
+ReactDOM.render(<App />, document.getElementById('root'))
+

@@ -29,7 +29,7 @@ export function reqLogin(username, password) {
 */
 
 // 在3000下请求5000, 出现跨域错误, Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the reque
-export const reqLogin = (username, password) => ajax(BASE + '/login2', {username, password}, 'POST')   
+export const reqLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST')   
 
 // 添加用户, 一定要写{}, 则里面必须加上return!
 export const reqAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST')

@@ -50,17 +50,22 @@ class Login extends Component {
                   console.log('失败了', error)
               })
               */
+             /*
              try 
              {
                 const response = await reqLogin(username, password) 
                 console.log('请求成功', response.data);  
              } catch(error) {
                 console.log('请求出错了', error);  
-             }
+             }*/
+
+             const response = await reqLogin(username, password) 
+             console.log('请求成功', response.data); 
 
             } else {
               console.log('校验失败', values);
             }
+            
         });
 
         // 得到form对象

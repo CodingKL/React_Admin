@@ -36,6 +36,38 @@ class Login extends Component {
         console.log('handleSubmit()', values)
     }
 
+    /*
+        对密码进行自定义验证, 
+           validator	自定义校验（注意，callback 必须被调用）	function(rule, value, callback)
+        是一个回调函数, 函数形参是指定好了的三个参数!!!  rule, value, callback
+        value输入的密码, 注意，callback 必须被调用, 
+    */
+    /*
+    用户名/密码的合法性要求
+        1.必须输入
+        2.必须大于4位 
+        3.必须小于12位
+        4.必须是英文, 数字或下划线组成 
+    */
+    validatePwd = (rule, value, callback) => {
+
+        console.log('validatePwd()', rule, value)
+
+        if (!value) {
+            callback('密码必须输入')
+        } else if (value.length < 4) {
+            callback('密码长度不能小于4位')
+        } else if (value.length > 12) {
+            callback('密码长度不能大于12位')
+        } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+            callback('密码必须是英文, 数字或下划线组成')
+        } else {
+            callback()             // 验证通过
+            // callback('xxxx')    // 验证失败, 并指定提示的文本    
+        }
+
+    }
+
     // this.props.form.getFieldDecorator(id, options)
     //          https://3x.ant.design/components/form-cn/
     //  
@@ -85,7 +117,11 @@ class Login extends Component {
                         </Form.Item>
                         <Form.Item>
                             {getFieldDecorator('Password', { 
-                                rules: [{ required: true, message: 'Please input your username!' }],
+                                rules: [
+                                    { 
+                                        validator: this.validatePwd 
+                                    }
+                                ],
                             })(
                                 <Input
                                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25 )' }} />} 

@@ -1,4 +1,5 @@
 const {override, fixBabelImports, addLessLoader} = require('customize-cra');
+// const CracoLessPlugin = require('craco-less');
 
 //  modifyVars: {'@primary-color': '#1DA57A'},  '@primary-color'定义了一个变量
 //  指定了主体的颜色, Ant Design 的样式变量
@@ -22,14 +23,40 @@ module.exports = override(
     fixBabelImports('import', {
         libraryName: 'antd',
         libraryDirectory: 'es',
-        style: 'true',              // 自动打包相关的样式  , true 去处理less的源码文件           
+        style: true,              // 自动打包相关的样式  , true 去处理less的源码文件           
     }),
 
+    // yarn remove less-loader
+    // less-loader v6.0.0 is not working
+    // yarn add less-loader@5.0.1
     // 使用less-loader对源码中的less变量进行重新指定
+    /*
     addLessLoader({
-        lessOptions: {
-            javascriptEnabled: true,
-            modifyVars: {'@primary-color': '#1DA57A'},     
-        },
+        javascriptEnabled: true, 
+        modifyVars: { '@primary-color': '#1DA57A' }, 
+    })*/
+    
+    // 使用less-loader对源码中的less的变量进行重新指定
+    addLessLoader({
+      javascriptEnabled: true,
+      modifyVars: {'@primary-color': '#1DA57A'},
     }),
 );
+
+/*
+module.exports = {
+    plugins: [
+      {
+        plugin: CracoLessPlugin,
+        options: {
+          lessLoaderOptions: {
+            lessOptions: {
+              modifyVars: { '@primary-color': '#1DA57A' },
+              javascriptEnabled: true,
+            },
+          },
+        },
+      },
+    ],
+  };
+*/

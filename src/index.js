@@ -4,7 +4,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'antd/dist/antd.css'  // 最简单方法:   引入所有样式, 只打包引入的相关组件的样式, 
+// import 'antd/dist/antd.css'  // 最简单方法:   引入所有样式, 只打包引入的相关组件的样式, 
 
 // 引入自定义模块,需要加 '.'
 import App from './App'

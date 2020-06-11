@@ -32,7 +32,7 @@ class Login extends Component {
         // 对所有的表单字段进行校验
         // this.props.form得到form对象
         // values对象
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             
             if (!err) {
               // 校验成功
@@ -43,11 +43,20 @@ class Login extends Component {
 
               // 请求登陆
               const {username, password} = values   // 解构参数, 注意参数名保持一致!!!
+              /*
               reqLogin(username, password).then(response => {
                   console.log('ok', response.data)
               }).catch(error => {
                   console.log('失败了', error)
-              })    
+              })
+              */
+             try 
+             {
+                const response = await reqLogin(username, password) 
+                console.log('请求成功', response.data);  
+             } catch(error) {
+                console.log('请求出错了', error);  
+             }
 
             } else {
               console.log('校验失败', values);
@@ -273,4 +282,18 @@ export default WrapLogin
 /*
     1.前台表单验证
     2.收集表单输入数据
+*/
+
+/*
+        async和await
+
+        1.作用
+            简化promise对象的使用:  不用再使用then()来指定成功/失败的回调函数
+            以同步编码方式(没有写回调函数)实现异步流程, 有回调函数就是异步编码方式!!!
+
+        2.哪里写async
+            await所在函数(最近)定义的左侧写async
+
+        3.哪里写await
+            在返回promise的表达式的左侧写await:  不想要promise, 想要promise异步执行的成功的value数据
 */

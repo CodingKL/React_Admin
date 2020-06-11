@@ -19,15 +19,30 @@ import { Form, Input, Icon, Button } from 'antd';
     登陆的路由组件(Admin), 样式通过类名className来控制
 */
 /*<div>Login</div>*/
-export default class Login extends Component {
-// class Login extends Component {
+// export default class Login extends Component {
+class Login extends Component {
 
     // 箭头函数, 事件回调函数有一个event
-    handleSubmit = () => {
-        
+    // 问题:     表单会自动提交
+    handleSubmit = (event) => {
+        // 阻止事件的默认行为
+        event.preventDefault()
+
+        // 得到form对象
+        const form = this.props.form  
+
+        // 获取表单项的输入数据
+        const values = form.getFieldsValue();
+        console.log('handleSubmit()', values)
     }
 
+    // 组件的数据包括外部传入的和自身的数据!!!
     render () {
+
+        // 具有很强大功能的form对象, form对象里面有一个属性getFieldDecorator方法
+        const form = this.props.form // this.props.Form   wrong!!! 
+        const { getFieldDecorator } = form // getFieldDecorator高阶函数, 该函数有两个参数, 至少传入一个标识名称参数, 
+
         return (
             <div className="login">
                 <header className="login-header">
@@ -38,17 +53,26 @@ export default class Login extends Component {
                     <h2>用户登陆</h2>
                     <Form onSubmit={this.handleSubmit} className="login-form">
                         <Form.Item>
-                            <Input
-                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Username" 
-                            />
+                            {getFieldDecorator('username', { 
+                                rules: [{ required: true, message: 'Please input your username!' }],
+                            })(
+                                <Input
+                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    placeholder="用户名" 
+                                />,
+                            )}
                         </Form.Item>
                         <Form.Item>
-                            <Input
-                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25 )' }} />} 
-                                type="password"
-                                placeholder="Password"
-                            />
+                            {getFieldDecorator('Password', { 
+                                rules: [{ required: true, message: 'Please input your username!' }],
+                            })(
+                                <Input
+                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25 )' }} />} 
+                                    type="password"
+                                    placeholder="密码"
+                                />,
+                            )}
+
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
@@ -120,5 +144,20 @@ export default class Login extends Component {
     */
 }
 
-// const WrapLogin = Form.create()(Login)
-// export default WrapLogin 
+// 返回一个新的组件
+// 高阶函数   create, 因为它返回的是一个函数
+// 高阶组件
+
+/*
+        包装Form组件, 生成一个新的组件: Form(login)
+                新组件会向Form组件传递一个强大的对象属性: form
+        父子组件, 路由组件接受的三个属性
+
+*/
+const WrapLogin = Form.create()(Login)
+export default WrapLogin 
+
+/*
+    1.前台表单验证
+    2.收集表单输入数据
+*/

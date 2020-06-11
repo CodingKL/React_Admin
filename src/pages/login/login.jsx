@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import './login.less'
 import logo from './images/logo.png'
 
-import { Layout } from 'antd';
+import { Layout, message } from 'antd';
 
 import { CaretDownFilled } from '@ant-design/icons'
 // import { ArrowsAltOutlined, CopyOutlined, YoutubeOutlined, AudioOutlined, StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
@@ -14,6 +14,7 @@ import { Form, Input, Icon, Button } from 'antd';
 import {reqLogin} from '../../api'
 // const Item = Form.Item       // 不能写在import之前!!!   
 // const { Header, Footer, Sider, Content } = Layout;
+
 
 /*
     登陆的路由组件(Admin), 样式通过类名className来控制
@@ -59,9 +60,20 @@ class Login extends Component {
                 console.log('请求出错了', error);  
              }*/
 
-             const response = await reqLogin(username, password) 
-             console.log('请求成功', response.data); 
+             //const response = await reqLogin(username, password) 
+             // console.log('请求成功', response.data); // 请求成功并不能代表登陆成功!!!
+             const result = await reqLogin(username, password) 
+             // const result = response.data // {status: 0, data: user} {status: 1, msg: 'xxx'}   
+             if (result.status===0) { // 登陆成功
+                // 提示登陆成功
+                message.success('登陆成功')
 
+                // 跳转到管理界面(不需要再回退回到登陆)
+                this.props.history.replace('/')
+             } else {  // 登陆失败
+                // 提示错误信息
+                message.error(result.msg)
+             }
             } else {
               console.log('校验失败', values);
             }

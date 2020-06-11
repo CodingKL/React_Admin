@@ -11,7 +11,7 @@ import { CaretDownFilled } from '@ant-design/icons'
 // import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Form, Input, Icon, Button } from 'antd';
 // import Icon from '@ant-design/icons';
-
+import {reqLogin} from '../../api'
 // const Item = Form.Item       // 不能写在import之前!!!   
 // const { Header, Footer, Sider, Content } = Layout;
 
@@ -38,6 +38,17 @@ class Login extends Component {
               // 校验成功
               // console.log('Received values of form: ', values);
               console.log('提交登陆的ajax请求', values);
+
+              // 表单验证通过后
+
+              // 请求登陆
+              const {username, password} = values   // 解构参数, 注意参数名保持一致!!!
+              reqLogin(username, password).then(response => {
+                  console.log('ok', response.data)
+              }).catch(error => {
+                  console.log('失败了', error)
+              })    
+
             } else {
               console.log('校验失败', values);
             }
@@ -81,6 +92,7 @@ class Login extends Component {
             // callback('xxxx')    // 验证失败, 并指定提示的文本    
         }
 
+    
     }
 
     // this.props.form.getFieldDecorator(id, options)
@@ -123,6 +135,7 @@ class Login extends Component {
                                     { max: 12, message: '用户名最多12位' },
                                     { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文, 数字或下划线组成' }
                                 ],
+                                initialValue: 'admin'    // 指定初始值
                             })(
                                 <Input
                                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -131,7 +144,7 @@ class Login extends Component {
                             )}
                         </Form.Item>
                         <Form.Item>
-                            {getFieldDecorator('Password', { 
+                            {getFieldDecorator('password', { 
                                 rules: [
                                     { 
                                         validator: this.validatePwd 

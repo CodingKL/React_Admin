@@ -12,6 +12,8 @@ import { CaretDownFilled } from '@ant-design/icons'
 import { Form, Input, Icon, Button } from 'antd';
 // import Icon from '@ant-design/icons';
 import {reqLogin} from '../../api'
+import memoryUtils from '../../utils/memoryUtils'
+
 // const Item = Form.Item       // 不能写在import之前!!!   
 // const { Header, Footer, Sider, Content } = Layout;
 
@@ -67,6 +69,10 @@ class Login extends Component {
              if (result.status===0) { // 登陆成功
                 // 提示登陆成功
                 message.success('登陆成功')
+                
+                // 保存user
+                const user = result.data
+                memoryUtils.user = user    // 保存在内存中
 
                 // 跳转到管理界面(不需要再回退回到登陆)
                 this.props.history.replace('/')

@@ -25,8 +25,23 @@ class Login extends Component {
     // 箭头函数, 事件回调函数有一个event
     // 问题:     表单会自动提交
     handleSubmit = (event) => {
-        // 阻止事件的默认行为
+        // 这里是阻止事件的默认行为, 还有一种是停止事件冒泡!!!
         event.preventDefault()
+
+        // 点击登陆按钮的时候, 还需要做Form的统一验证
+        // 对所有的表单字段进行校验
+        // this.props.form得到form对象
+        // values对象
+        this.props.form.validateFields((err, values) => {
+            
+            if (!err) {
+              // 校验成功
+              // console.log('Received values of form: ', values);
+              console.log('提交登陆的ajax请求', values);
+            } else {
+              console.log('校验失败', values);
+            }
+        });
 
         // 得到form对象
         const form = this.props.form  
